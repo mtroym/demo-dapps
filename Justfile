@@ -62,6 +62,12 @@ send-packet SOURCE:
     echo "Sending a packet with the values from the config..."
     node scripts/private/_send-packet-config.js {{SOURCE}}
 
+
+fun-mint SOURCE:
+    echo "mint tokens..."
+    node scripts/mint.js {{SOURCE}}
+
+
 # Send a packet over the universal channel or a custom channel as defined in the config.json file
 # The source argument is REQUIRED;
 # Usage: just send-packet [source]

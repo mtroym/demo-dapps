@@ -20,8 +20,6 @@ module.exports = {
       url: 'https://sepolia.base.org',
       accounts: [
         process.env.PRIVATE_KEY_1,
-        process.env.PRIVATE_KEY_2,
-        process.env.PRIVATE_KEY_3
       ],
     },
     // for OP testnet
@@ -29,8 +27,6 @@ module.exports = {
       url: 'https://sepolia.optimism.io',
       accounts: [
         process.env.PRIVATE_KEY_1,
-        process.env.PRIVATE_KEY_2,
-        process.env.PRIVATE_KEY_3
       ],
     },    
   },
