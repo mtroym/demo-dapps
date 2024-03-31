@@ -24,7 +24,7 @@ async function main() {
     
 
     await ibcApp.connect(accounts[0]).setAcceptTokenAddress(
-      "0x2322B4A6c05F3409f030a46041049a75a9A3462a");
+      "0xda9996d80EFdaE2C30B3036C47E2A5617F8BA8Ca");
     // Send the packet
     // await ibcApp.connect(accounts[0]).sendPacket(
     //     channelIdBytes,

@@ -13,7 +13,7 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721 {
     string public tokenURIC4 =
         "https://gateway.ipfsscan.io/ipfs/QmPGHLqdsDAGJY7KHF8ZifjQvvjSPFKqsGT1M5axu1VcWv?filename=QmZu7WiiKyytxwwKSwr6iPT1wqCRdgpqQNhoKUyn1CkMD3.json";
 
-
+    // ERC721
     IERC20 public acceptTokenAddress;
     uint256 public randomizerPrice = 10*10**18; 
 
@@ -30,14 +30,20 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721 {
     mapping(uint256 => NFTType) public tokenTypeMap;
     mapping(NFTType => string) public tokenURIs;
     mapping(NFTType => uint256[]) public typeTokenMap; 
-
-
+    mapping(NFTType => uint256) public typeTokenPriceMap;
+    mapping(address => uint256[]) public addressOwnerTokens;
     
     constructor(address _middleware) UniversalChanIbcApp(_middleware) ERC721("nftsWithPts", "ptNFT") {
         tokenURIs[NFTType.POLY1] = "https://gateway.ipfsscan.io/ipfs/QmX9LckCJtBpi1WU43vL6Xkxz1ZcuvUKNrWu6bZCnuPyqS";
         tokenURIs[NFTType.POLY2] = "https://gateway.ipfsscan.io/ipfs/QmVtbtSMkx5JdgAYn1rj5Wsx9w3Pv9zEUDNrwfmJE6homL";
         tokenURIs[NFTType.POLY3] = "https://gateway.ipfsscan.io/ipfs/QmdkPqEKZ8tA6SmCizfcTcTCfqagUcYUT1CueZBaCC9UZn";
         tokenURIs[NFTType.POLY4] = "https://gateway.ipfsscan.io/ipfs/QmUk7oFiMdkzSh6vQBdtS12WrvYY2ycVE6MXRAmDjxFDYT";
+
+        typeTokenPriceMap[NFTType.POLY1] = 1;
+        typeTokenPriceMap[NFTType.POLY2] = 1;
+        typeTokenPriceMap[NFTType.POLY3] = 1;
+        typeTokenPriceMap[NFTType.POLY4] = 1;
+
         mint(msg.sender, NFTType.POLY4);
     }
 
@@ -45,7 +51,59 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721 {
         acceptTokenAddress = IERC20(_erc20TokenAddress);
     }
 
+    function mintNFT1() public {
+        purchaseMint(msg.sender, 0);
+    }
+    function mintNFT2() public {
+        purchaseMint(msg.sender, 1);
+    }
+    function mintNFT3() public {
+        purchaseMint(msg.sender, 2);
+    }
+    function mintNFT4() public {
+        purchaseMint(msg.sender, 3);
+    }
 
+    function purchaseMint(address recipient, uint256 ptype) public {
+        require(msg.sender == recipient, "you need to mint yourself!");
+        NFTType pType = NFTType.POLY1;
+        uint256 idx = ptype % 4;
+        if (idx == 1) {
+            pType = NFTType.POLY2;
+        } 
+        if (idx == 2) {
+            pType = NFTType.POLY3;
+        }
+        if (idx == 3) {
+            pType = NFTType.POLY4;
+        }
+        uint256 tokenPrice = typeTokenPriceMap[pType] * 10 ** 18;
+        require(acceptTokenAddress.balanceOf(msg.sender) >= tokenPrice, "pts to low to mint a nft with pts.");
+        // acceptTokenAddress.approve(address(this), tokenPrice);
+        // acceptTokenAddress.transferFrom(msg.sender, address(this), tokenPrice);
+
+        mint(recipient, pType);
+    }
+
+
+    function getUserOwnedTokens(address user) public view virtual returns (uint256[] memory) {
+        return addressOwnerTokens[user];
+    }
+
+    function tokenVariants(uint256 tokenId) public view virtual returns (uint256) {
+        if (tokenTypeMap[tokenId] == NFTType.POLY1) {
+            return 1;
+        } 
+        if (tokenTypeMap[tokenId] == NFTType.POLY2) {
+            return 2;
+        }         
+        if (tokenTypeMap[tokenId] == NFTType.POLY3) {
+            return 3;
+        }         
+        if (tokenTypeMap[tokenId] == NFTType.POLY4) {
+            return 4;
+        } 
+    }
 
     function mint(address recipient, NFTType pType) internal returns (uint256) {
         currentTokenId += 1;
@@ -61,7 +119,7 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721 {
         require(acceptTokenAddress.balanceOf(msg.sender) >= randomizerPrice, "pts too low to mint a randomizer!");
         // require()
         // acceptTokenAddress
-
+        acceptTokenAddress.approve(address(this), randomizerPrice);
         acceptTokenAddress.transferFrom(msg.sender, address(this), randomizerPrice);
         uint256 random = uint256(keccak256(abi.encodePacked(block.timestamp, msg.sender))) % 100;
         NFTType pType = NFTType.POLY1;

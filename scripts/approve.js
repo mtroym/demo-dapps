@@ -21,14 +21,10 @@ async function main() {
     const channelId = sendConfig[`${networkName}`]["channelId"];
     const channelIdBytes = hre.ethers.encodeBytes32String(channelId);
     const timeoutSeconds = sendConfig[`${networkName}`]["timeout"];
-    
-    
-    const allowance = 2**256 - 1;
-    console.log("allowance: %d", allowance)
 
 
     await ibcApp.connect(accounts[0]).approve(
-      "0x846B6dB8192279940E7BF5Dc87DD3e040F18F91c", 
+      "0x0DD73EB4A59d90bEbDfe61B2a76Da26Ca023ab20", 
       "1000000000000000000000"
     );
     // await ibcApp.connect(accounts[0]).funMint();
