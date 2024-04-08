@@ -15,7 +15,7 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721 {
 
     // ERC721
     IERC20 public acceptTokenAddress;
-    uint256 public randomizerPrice = 10*10**18; 
+    uint256 public randomizerPrice = 0.00001*10**18; 
 
     event MintAckReceived(address receiver, uint256 tokenId, string message);
     event NFTAckReceived(address voter, address recipient, uint256 voteId);

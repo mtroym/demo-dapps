@@ -7,16 +7,22 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
     
-    uint256 public p_mintInterval;
-    uint256 public p_funMintAmount;
+    uint256 internal p_mintInterval;
+
     mapping(address account => uint256) public _lastFunMint;
     event PointsAdded(address receiver, uint256 amount);
+    event MintIntervalUpdated(uint256 interval);
 
-    constructor (address _middleware) ERC20("Polymer Game pts", "pts") UniversalChanIbcApp(_middleware) {
+    constructor (address _middleware) ERC20("xPts[CrossChainPts]@mtroym", "xpts") UniversalChanIbcApp(_middleware) {
         uint256 initialMintAmount = 0 ** decimals();
-        uint256 p_mintInterval = 10;
-        uint256 p_funMintAmount = 10 * 10 ** decimals();
+        setMintInterval(uint256(120));
         _mint(owner(), initialMintAmount);
+    }
+
+    function setMintInterval(uint256 interval) public {
+        require(msg.sender == owner(), "only owner can setMintInterval!");
+        p_mintInterval = interval;
+        emit MintIntervalUpdated(p_mintInterval);
     }
 
     /**
@@ -37,29 +43,30 @@ contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
         _burn(msg.sender, amount);
     }
 
-    function lastFunMintTimestamp(address account) public view virtual returns (uint256) {
-        return _lastFunMint[account];
+    function _canFunMint() public view returns (bool) {
+        return _lastFunMint[msg.sender] + p_mintInterval < block.timestamp;
     }
 
-    function funMint() public virtual {
-        _funMint();
+    function _currentTimeStamp() public view returns (uint256) {
+        return block.timestamp;
     }
 
-    function _funMint() internal virtual {
+    function funMint() public returns (uint256) {
+        return _funMint();
+    }
+
+    function _funMint() internal returns (uint256) {
         uint256 currentTimeStamp = block.timestamp; 
         uint256 randomAmount = uint256( // random points.
             keccak256(abi.encodePacked(currentTimeStamp, msg.sender))) % 10 + 1;
-        if (_lastFunMint[msg.sender] == 0) { // first mint
-            _mint(msg.sender, randomAmount * 10 ** decimals());
-            _lastFunMint[msg.sender] = currentTimeStamp;
-            
-        } else { // secound
-            require(_lastFunMint[msg.sender] + p_mintInterval >= currentTimeStamp, 
-                "PolymerERC20UC: colding down, waiting!");
-            _mint(msg.sender, randomAmount * 10 ** decimals());
-            _lastFunMint[msg.sender] = currentTimeStamp;
-        }
+        
+        require(_lastFunMint[msg.sender] + p_mintInterval < currentTimeStamp, 
+            "PolymerERC20UC: colding down, waiting!");
+        _mint(msg.sender, randomAmount * 10 ** decimals());
+        _lastFunMint[msg.sender] = currentTimeStamp;
+
         emit PointsAdded(msg.sender, randomAmount);
+        return randomAmount;
     }
 
     // IBC 

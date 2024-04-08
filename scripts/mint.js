@@ -24,10 +24,24 @@ async function main() {
     
 
 
-    await ibcApp.connect(accounts[0]).randomMint(
-      accounts[0].address
-    );
+    // await ibcApp.connect(accounts[0]).randomMint(
+    //   accounts[0].address
+    // );
     // await ibcApp.connect(accounts[0]).funMint();
+    // data = 
+    console.log(await ibcApp.connect(accounts[0]).p_mintInterval());
+    console.log(await ibcApp.connect(accounts[0]).setMintInterval(1000n));
+    console.log(await ibcApp.connect(accounts[0]).p_mintInterval());
+
+    console.log(await ibcApp.connect(accounts[0])._lastFunMint(accounts[0]));
+    console.log(await ibcApp.connect(accounts[0])._canFunMint(accounts[0]));
+    console.log(await ibcApp.connect(accounts[0]).funMint());
+    console.log(await ibcApp.connect(accounts[0])._lastFunMint(accounts[0]));
+    console.log(await ibcApp.connect(accounts[0])._currentTimeStamp(accounts[0]));
+    console.log(await ibcApp.connect(accounts[0])._canFunMint(accounts[0]));
+
+
+    // console.log(await ibcApp.connect(accounts[0]).));
     // Send the packet
     // await ibcApp.connect(accounts[0]).sendPacket(
     //     channelIdBytes,

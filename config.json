@@ -1,8 +1,8 @@
 {
   "proofsEnabled": false,
   "deploy": {
-    "optimism": "PolymerERC721UC",
-    "base": "PolymerERC721UC"
+    "optimism": "PolymerERC20UC",
+    "base": "PolymerERC20UC"
   },
   "isUniversal": true,
   "createChannel": {
@@ -28,7 +28,7 @@
   },
   "sendUniversalPacket": {
     "optimism": {
-      "portAddr": "0x052c8eB7a8aDD3bA33a1A85F99464CdA88633FaC",
+      "portAddr": "0x88dE83B18cafcF2f6047a381C85352993F64CA05",
       "channelId": "channel-10",
       "timeout": 36000
     },
