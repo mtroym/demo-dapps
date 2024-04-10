@@ -28,12 +28,12 @@ async function main() {
     const timeoutSeconds = sendConfig[`${networkName}`]["timeout"];
     
     // Send the packet
-    await ibcApp.connect(accounts[0]).crossChainMint(
+    await ibcApp.connect(accounts[0]).crossChainRandomMint(
         destPortAddr,
         channelIdBytes,
         timeoutSeconds,
-        1,
-        false
+        // 1,
+        // false
         // Define and pass optionalArgs appropriately or remove if not needed
     );
 }

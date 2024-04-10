@@ -257,7 +257,7 @@ contract PolymerERC721UC is
             acceptTokenAddress.transferFrom(
                 msg.sender,
                 address(this),
-                randomizerPrice
+                typeTokenPriceMap[tokenType]
             );
         }
 
@@ -299,7 +299,7 @@ contract PolymerERC721UC is
         }
         crossChainMint(destPortAddr, channelId, timeoutSeconds, pType, false);
         // acceptTokenAddress.burn(randomizerPrice);
-        acceptTokenAddress.transferFrom(address(this), address(0x0), randomizerPrice);
+        // acceptTokenAddress.transferFrom(address(this), address(0x0), randomizerPrice);
     }
     /**
      * @dev Packet lifecycle callback that implements packet receipt logic and returns and acknowledgement packet.
@@ -356,7 +356,7 @@ contract PolymerERC721UC is
         }
         emit MintAckReceived(caller, tokenId, "NFT minted successfully");
         // acceptTokenAddress.burn(amount);
-        acceptTokenAddress.transferFrom(address(this), address(0x0), amount);
+        // acceptTokenAddress.transferFrom(address(this), address(0x0), amount);
     }
 
     /**
