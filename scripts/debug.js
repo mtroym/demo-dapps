@@ -28,13 +28,17 @@ async function main() {
     // );
     // NFT contract.
 
-    console.log(await ibcApp.connect(accounts[0]).getUserOwnedTokenIds(accounts[0])) // > get token balance.
+    console.log(await ibcApp.connect(accounts[0]).getUserOwnedTokenIds("0x7BF1d902687d2cEC827105Db478123aB26E97B23")) // > get token balance.
 
-    console.log(await ibcApp.connect(accounts[0]).balanceOf(accounts[0])) // > get token balance.
-    console.log(await ibcApp.connect(accounts[0]).tokenOfOwnerByIndex(accounts[0], 0)); // get tokenID by index. iter balance count.
-    console.log(await ibcApp.connect(accounts[0]).tokenURI(1)); // get token URI by tokenID
+    // console.log(await ibcApp.connect(accounts[0]).balanceOf(accounts[0])) // > get token balance.
+    // console.log(await ibcApp.connect(accounts[0]).tokenOfOwnerByIndex(accounts[0], 0)); // get tokenID by index. iter balance count.
+    // console.log(await ibcApp.connect(accounts[0]).tokenURI(1)); // get token URI by tokenID
 
 
+    const tokenIds = await ibcApp.connect(accounts[0]).getUserOwnedTokenIds("0x7BF1d902687d2cEC827105Db478123aB26E97B23")
+    tokenIds.forEach(async (element, idx) => {
+      console.log("tokenID:", element, "URI:" , await ibcApp.connect(accounts[0]).tokenURI(element));
+    });
     
     // console.log(await ibcApp.connect(accounts[0]).));
     // Send the packet
