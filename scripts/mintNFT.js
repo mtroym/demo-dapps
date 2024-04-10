@@ -5,7 +5,7 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require('hardhat');
-const { getConfigPath } = require('./private/_helpers');
+const { getConfigPath } = require('./private/_helpers.js');
 const { getIbcApp } = require('./private/_vibc-helpers.js');
 
 async function main() {
@@ -23,27 +23,13 @@ async function main() {
     const timeoutSeconds = sendConfig[`${networkName}`]["timeout"];
     
 
-
-    // await ibcApp.connect(accounts[0]).randomMint(
+    // await ibcApp.connect(accounts[0]).mintNFT1(
     //   accounts[0].address
     // );
-    // await ibcApp.connect(accounts[0]).funMint();
-    // data = 
-    // // console.log(await ibcApp.connect(accounts[0]).p_mintInterval());
-    // console.log(await ibcApp.connect(accounts[0]).setMintInterval(120n));
-    // // console.log(await ibcApp.connect(accounts[0]).p_mintInterval());
 
-    // console.log(await ibcApp.connect(accounts[0])._lastFunMint(accounts[0]));
-    // console.log(await ibcApp.connect(accounts[0]).devMintTo("100000000000000000000000000000", "0x7BF1d902687d2cEC827105Db478123aB26E97B23"));
-    console.log(await ibcApp.connect(accounts[0]).devMintTo("100000000000000000000000000000", "0xe7A4e35c1db4Ff3b65bfBd8599E4caC2A4e941F2"));
-
-    console.log(await ibcApp.connect(accounts[0])._canFunMint(accounts[0]));
-    console.log(await ibcApp.connect(accounts[0]).funMint());
-    // 0xAA597BBD271778ae560FF20979d8Ed6C27E3D0D8
-    // console.log(await ibcApp.connect(accounts[0])._lastFunMint(accounts[0]));
-    // console.log(await ibcApp.connect(accounts[0])._currentTimeStamp(accounts[0]));
-    // console.log(await ibcApp.connect(accounts[0])._canFunMint(accounts[0]));
-
+    await ibcApp.connect(accounts[0]).randomMint(
+      accounts[0].address
+    );
 
     // console.log(await ibcApp.connect(accounts[0]).));
     // Send the packet

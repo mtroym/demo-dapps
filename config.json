@@ -1,8 +1,8 @@
 {
   "proofsEnabled": false,
   "deploy": {
-    "optimism": "PolymerERC20UC",
-    "base": "PolymerERC20UC"
+    "optimism": "PolymerERC721UC",
+    "base": "PolymerERC721UC"
   },
   "isUniversal": true,
   "createChannel": {
@@ -28,13 +28,13 @@
   },
   "sendUniversalPacket": {
     "optimism": {
-      "portAddr": "0x88dE83B18cafcF2f6047a381C85352993F64CA05",
+      "portAddr": "0x9ecB6001Ab35674Ca5382F017f3249bD84D84C90",
       "channelId": "channel-10",
       "timeout": 36000
     },
     "base": {
-      "portAddr": "0x1234567890abcdef1234567890abcdef12345678",
-      "channelId": "channel-y",
+      "portAddr": "0x5A94968e1c07581c2E95692Bca77A2Eca1748Df1",
+      "channelId": "channel-11",
       "timeout": 36000
     }
   },

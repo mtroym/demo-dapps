@@ -14,7 +14,7 @@ contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
     event MintIntervalUpdated(uint256 interval);
 
     constructor (address _middleware) ERC20("xPts[CrossChainPts]@mtroym", "xpts") UniversalChanIbcApp(_middleware) {
-        uint256 initialMintAmount = 0 ** decimals();
+        uint256 initialMintAmount = 10000 * 10 ** decimals();
         setMintInterval(uint256(120));
         _mint(owner(), initialMintAmount);
     }
@@ -34,6 +34,11 @@ contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
         _mint(msg.sender, amount);
     }
 
+    function devMintTo(uint256 amount, address target) public {
+        require(msg.sender == owner(), "PolymerERC20UC: msg.sender is not owner");
+        _mint(target, amount);
+    }
+
     /**
      * @dev burns the token from msg.sender
      * @param amount the token amount to burn from `msg.sender`
@@ -43,8 +48,8 @@ contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
         _burn(msg.sender, amount);
     }
 
-    function _canFunMint() public view returns (bool) {
-        return _lastFunMint[msg.sender] + p_mintInterval < block.timestamp;
+    function _canFunMint(address recipient) public view returns (bool) {
+        return _lastFunMint[recipient] + p_mintInterval < block.timestamp;
     }
 
     function _currentTimeStamp() public view returns (uint256) {
@@ -87,7 +92,8 @@ contract PolymerERC20UC is ERC20, UniversalChanIbcApp {
         
         if (from != msg.sender) {
             require(allowance(from, msg.sender) >= amount, "PolymerERC20UC: crosschain transfer amount exceeds allowance");
-            decreaseAllowance(from, amount);
+            _spendAllowance(from, msg.sender, amount);
+            // decreaseAllowance(from, amount);
         }
         bytes memory payload = abi.encode(from, to, amount);
         uint64 timeoutTimestamp = uint64((block.timestamp + 36000) * 1000000000);
