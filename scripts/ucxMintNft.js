@@ -5,39 +5,37 @@
 // will compile your contracts, add the Hardhat Runtime Environment's members to the
 // global scope, and execute the script.
 const hre = require('hardhat');
-const { getConfigPath } = require('./private/_helpers.js');
+const { getConfigPath } = require('./private/_helpers');
 const { getIbcApp } = require('./private/_vibc-helpers.js');
 
 async function main() {
     const accounts = await hre.ethers.getSigners();
     const config = require(getConfigPath());
-    const sendConfig = config.sendPacket;
+    const sendConfig = config.sendUniversalPacket;
 
     const networkName = hre.network.name;
     // Get the contract type from the config and get the contract
     const ibcApp = await getIbcApp(networkName);
 
     // Do logic to prepare the packet
+
+    // If the network we are sending on is optimism, we need to use the base port address and vice versa
+    const destPortAddr = networkName === "optimism" ?
+      config["sendUniversalPacket"]["base"]["portAddr"] :
+      config["sendUniversalPacket"]["optimism"]["portAddr"];
     const channelId = sendConfig[`${networkName}`]["channelId"];
     const channelIdBytes = hre.ethers.encodeBytes32String(channelId);
     const timeoutSeconds = sendConfig[`${networkName}`]["timeout"];
     
-
-    // await ibcApp.connect(accounts[0]).mintNFT1(
-    //   accounts[0].address
-    // );
-
-    await ibcApp.connect(accounts[0]).crossChainMint(
-      accounts[0].address
-    );
-
-    // console.log(await ibcApp.connect(accounts[0]).));
     // Send the packet
-    // await ibcApp.connect(accounts[0]).sendPacket(
-    //     channelIdBytes,
-    //     timeoutSeconds,
-    //     // Define and pass optionalArgs appropriately or remove if not needed    
-    //     );
+    await ibcApp.connect(accounts[0]).crossChainMint(
+        destPortAddr,
+        channelIdBytes,
+        timeoutSeconds,
+        1,
+        false
+        // Define and pass optionalArgs appropriately or remove if not needed
+    );
 }
 
 // We recommend this pattern to be able to use async/await everywhere

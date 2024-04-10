@@ -28,15 +28,24 @@
   },
   "sendUniversalPacket": {
     "optimism": {
-      "portAddr": "0x90F31b0B6613A5EF2c3F1Ea50F8121dD3c25E7A8",
+      "portAddr": "0xBa93E12288622897b9c83aAb2d30c9e0EEEbD5a6",
       "channelId": "channel-10",
       "timeout": 36000
     },
     "base": {
-      "portAddr": "0x62649Cf1149589B5917b1d2bFE4f45BbA94cb39b",
+      "portAddr": "0x9606376d7eB21cc6765bfEd403c64BC7a030a77d",
       "channelId": "channel-11",
       "timeout": 36000
     }
   },
-  "backup": {}
+  "approve": {
+    "optimism": {
+      "portAddr": "0xECd3AF486903Ea6c5BdaD2A2eb0567d718E147F1"
+    }
+  },
+  "backup": {
+    "0xBa93E12288622897b9c83aAb2d30c9e0EEEbD5a6": "nft op",
+    "0xECd3AF486903Ea6c5BdaD2A2eb0567d718E147F1": "token op",
+    "0x9606376d7eB21cc6765bfEd403c64BC7a030a77d": "nft base"
+  }
 }

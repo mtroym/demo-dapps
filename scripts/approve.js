@@ -24,7 +24,7 @@ async function main() {
 
 
     await ibcApp.connect(accounts[0]).approve(
-      "0x4D4f841A6C4829D843924e5EC04d88320b5Fd2Ce", 
+      "0xBa93E12288622897b9c83aAb2d30c9e0EEEbD5a6", 
       "100000000000000000000000"
     );
     // await ibcApp.connect(accounts[0]).funMint();
