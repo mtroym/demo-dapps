@@ -26,12 +26,16 @@ async function main() {
     // await ibcApp.connect(accounts[0]).mintNFT1(
     //   accounts[0].address
     // );
+    // NFT contract.
 
-    console.log(await ibcApp.connect(accounts[0]).tokenURI(1));
+    console.log(await ibcApp.connect(accounts[0]).getUserOwnedTokenIds(accounts[0])) // > get token balance.
+
+    console.log(await ibcApp.connect(accounts[0]).balanceOf(accounts[0])) // > get token balance.
+    console.log(await ibcApp.connect(accounts[0]).tokenOfOwnerByIndex(accounts[0], 0)); // get tokenID by index. iter balance count.
+    console.log(await ibcApp.connect(accounts[0]).tokenURI(1)); // get token URI by tokenID
 
 
-    console.log(await ibcApp.connect(accounts[0]).tokenOfOwnerByIndex(accounts[0], 0));
-
+    
     // console.log(await ibcApp.connect(accounts[0]).));
     // Send the packet
     // await ibcApp.connect(accounts[0]).sendPacket(

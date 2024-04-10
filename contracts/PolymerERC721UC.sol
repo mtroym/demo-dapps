@@ -134,10 +134,17 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721, ERC721Enumerable, ERC72
         mint(recipient, ptype);
     }
 
-    function getUserOwnedTokens(
+    function getUserOwnedTokenIds(
         address user
-    ) public view virtual returns (uint256[] memory) {
+    ) public view returns (uint256[] memory) {
         return addressOwnerTokens[user];
+        // uint256 tokenBalance = balanceOf(user);
+        // uint256[] tokenIds; 
+        // for (uint i = 0; i < tokenBalance; i++) {
+        //     uint256 tokenId = tokenOfOwnerByIndex(user, i);
+        //     tokenIds.push(tokenId);
+        // }
+        // return tokenIds;
     }
 
     function tokenVariants(
@@ -151,6 +158,7 @@ contract PolymerERC721UC is UniversalChanIbcApp, ERC721, ERC721Enumerable, ERC72
         uint256 tokenId = currentTokenId.current();
         tokenTypeMap[tokenId] = pType;
         typeTokenMap[pType].push(tokenId);
+        addressOwnerTokens[recipient].push(tokenId);
         _safeMint(recipient, tokenId);
         _setTokenURI(tokenId, tokenURIs[pType]);
         return tokenId;
